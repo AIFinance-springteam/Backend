@@ -1,5 +1,5 @@
 ---
-name: 작업 이슈
+name: 기능 개발
 about: 개발 작업을 등록합니다
 title: ""
 labels: ""
