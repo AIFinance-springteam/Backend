@@ -52,18 +52,17 @@ public class ReceiptItem extends BaseEntity {
     public static ReceiptItem createAdditionalCost(
             Receipt receipt,
             String itemName,
-            String category,
-            Long originalAmount,
-            Long settlementAmount
+            Long amount
     ) {
         ReceiptItem item = new ReceiptItem();
         item.receipt = receipt;
         item.itemName = itemName;
         item.quantity = 1;
-        item.unitPrice = originalAmount;
-        item.originalAmount = originalAmount;
-        item.settlementAmount = settlementAmount;
-        item.category = category;
+        item.unitPrice = amount;
+        item.originalAmount = amount;
+        item.settlementAmount = amount;
+        item.category = "ADDITIONAL_COST";
+
         return item;
     }
 }
