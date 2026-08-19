@@ -81,7 +81,10 @@ public class ReceiptItem extends BaseEntity {
         item.originalAmount = amount;
         item.settlementAmount = amount;
         item.category = ADDITIONAL_COST_CATEGORY;
+<<<<<<< HEAD
         
+=======
+>>>>>>> cc264a4 (feat: 추가 비용 항목 삭제 API 구현)
         receipt.addItem(item);
 
         return item;
@@ -90,6 +93,7 @@ public class ReceiptItem extends BaseEntity {
     public boolean isAdditionalCost() {
         return ADDITIONAL_COST_CATEGORY.equals(category);
     }
+<<<<<<< HEAD
 
     public void updateSplitType(SplitType splitType) {
         this.splitType = splitType;
@@ -98,4 +102,6 @@ public class ReceiptItem extends BaseEntity {
     public void updateRemainderMember(TripMember remainderMember) {
         this.remainderMember = remainderMember;
     }
+=======
+>>>>>>> cc264a4 (feat: 추가 비용 항목 삭제 API 구현)
 }
