@@ -49,24 +49,21 @@ public class ReceiptItem extends BaseEntity {
     @JoinColumn(name = "remainder_member_id")
     private TripMember remainderMember;
 
-    void assignReceipt(Receipt receipt) {
-        this.receipt = receipt;
-    }
-
     public static ReceiptItem createAdditionalCost(
             Receipt receipt,
             String itemName,
             Long amount
     ) {
         ReceiptItem item = new ReceiptItem();
+        item.receipt = receipt;
         item.itemName = itemName;
         item.quantity = 1;
         item.unitPrice = amount;
         item.originalAmount = amount;
         item.settlementAmount = amount;
         item.category = "ADDITIONAL_COST";
-        receipt.addItem(item);
 
         return item;
     }
 }
+
