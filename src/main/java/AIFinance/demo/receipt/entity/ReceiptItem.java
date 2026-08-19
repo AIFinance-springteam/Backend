@@ -49,6 +49,8 @@ public class ReceiptItem extends BaseEntity {
     @JoinColumn(name = "remainder_member_id")
     private TripMember remainderMember;
 
+    private static final String ADDITIONAL_COST_CATEGORY = "ADDITIONAL_COST";
+
     public static ReceiptItem createAdditionalCost(
             Receipt receipt,
             String itemName,
@@ -61,9 +63,13 @@ public class ReceiptItem extends BaseEntity {
         item.unitPrice = amount;
         item.originalAmount = amount;
         item.settlementAmount = amount;
-        item.category = "ADDITIONAL_COST";
+        item.category = ADDITIONAL_COST_CATEGORY;
 
         return item;
+    }
+
+    public boolean isAdditionalCost() {
+        return ADDITIONAL_COST_CATEGORY.equals(category);
     }
 }
 
