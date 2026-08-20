@@ -13,6 +13,12 @@ public enum ReceiptItemSuccessCode implements BaseSuccessCode {
             HttpStatus.CREATED,
             "ADDITIONAL_COST_CREATED",
             "추가 비용 항목이 등록되었습니다."
+    ),
+
+    ADDITIONAL_COST_DELETED(
+            HttpStatus.OK,
+            "ADDITIONAL_COST_DELETED",
+            "추가 비용 항목이 삭제되었습니다."
     );
 
     private final HttpStatus status;
