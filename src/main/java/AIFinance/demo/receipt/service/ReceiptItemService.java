@@ -64,10 +64,7 @@ public class ReceiptItemService {
 
         validateAdditionalCost(receiptItem);
 
-<<<<<<< HEAD
         itemShareRepository.deleteByItem_Id(receiptItem.getId());
-=======
->>>>>>> cc264a4 (feat: 추가 비용 항목 삭제 API 구현)
         receiptItemRepository.delete(receiptItem);
     }
 
