@@ -36,6 +36,18 @@ public enum ReceiptItemErrorCode implements BaseErrorCode {
             HttpStatus.CONFLICT,
             "RECEIPT_DELETED",
             "삭제된 영수증에는 추가 비용을 등록할 수 없습니다."
+    ),
+
+    RECEIPT_ITEM_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "RECEIPT_ITEM_NOT_FOUND",
+            "해당 영수증에서 추가 비용 항목을 찾을 수 없습니다."
+    ),
+
+    NOT_ADDITIONAL_COST(
+            HttpStatus.BAD_REQUEST,
+            "NOT_ADDITIONAL_COST",
+            "추가 비용 항목만 삭제할 수 있습니다."
     );
 
     private final HttpStatus status;

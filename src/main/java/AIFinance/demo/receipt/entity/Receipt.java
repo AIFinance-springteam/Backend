@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.entity;
 
 import AIFinance.demo.global.entity.BaseEntity;
 import AIFinance.demo.receipt.entity.enums.ReceiptAnalysisStatus;
+import AIFinance.demo.receipt.entity.enums.ReceiptDuplicateStatus;
 import AIFinance.demo.receipt.entity.enums.ReceiptInputType;
 import AIFinance.demo.receipt.entity.enums.ReceiptStatus;
 import AIFinance.demo.trip.entity.Trip;
@@ -10,6 +11,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -61,4 +64,18 @@ public class Receipt extends BaseEntity {
     @Column(name = "analysis_status", nullable = false, length = 20)
     @Builder.Default
     private ReceiptAnalysisStatus analysisStatus = ReceiptAnalysisStatus.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "duplicate_status", nullable = false, length = 20)
+    @Builder.Default
+    private ReceiptDuplicateStatus duplicateStatus = ReceiptDuplicateStatus.PENDING;
+
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ReceiptItem> items = new ArrayList<>();
+
+    public void addItem(ReceiptItem item) {
+        items.add(item);
+        item.assignReceipt(this);
+    }
 }
