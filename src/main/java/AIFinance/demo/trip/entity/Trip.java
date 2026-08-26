@@ -45,5 +45,8 @@ public class Trip extends BaseEntity {
     @Column(name = "invite_expires_at")
     private LocalDateTime inviteExpiresAt;
 
-
+    public void regenerateInvite(String inviteCode, LocalDateTime inviteExpiresAt) {
+        this.inviteCode = inviteCode;
+        this.inviteExpiresAt = inviteExpiresAt;
+    }
 }
