@@ -3,6 +3,7 @@ package AIFinance.demo.receipt.service;
 import AIFinance.demo.global.apiPayload.exception.GeneralException;
 import AIFinance.demo.global.exception.SplitErrorCode;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
+import AIFinance.demo.receipt.dto.ItemRemainderRequest;
 import AIFinance.demo.receipt.entity.ItemShare;
 import AIFinance.demo.receipt.entity.ReceiptItem;
 import AIFinance.demo.receipt.entity.enums.SplitType;
@@ -44,6 +45,35 @@ public class ItemSplitService {
         }
 
         item.updateSplitType(SplitType.EQUAL);
+
+        return ItemParticipantsResponse.of(itemId, shares);
+    }
+
+    public ItemParticipantsResponse splitRemainder(Long itemId, ItemRemainderRequest request) {
+        ReceiptItem item = getItem(itemId);
+
+        List<ItemShare> shares = itemShareRepository.findByItem_Id(itemId);
+        if (shares.isEmpty()) {
+            throw new GeneralException(SplitErrorCode.NO_PARTICIPANT_SELECTED);
+        }
+
+        ItemShare remainderShare = shares.stream()
+                .filter(share -> share.getTripMember().getId().equals(request.getTripMemberId()))
+                .findFirst()
+                .orElseThrow(() -> new GeneralException(SplitErrorCode.PARTICIPANT_NOT_IN_ITEM));
+
+        int count = shares.size();
+        long originalAmount = item.getOriginalAmount();
+        long baseAmount = originalAmount / count;
+        long remainder = originalAmount % count;
+
+        for (ItemShare share : shares) {
+            share.updateShareAmount(baseAmount);
+        }
+        remainderShare.updateShareAmount(baseAmount + remainder);
+
+        item.updateSplitType(SplitType.EQUAL);
+        item.updateRemainderMember(remainderShare.getTripMember());
 
         return ItemParticipantsResponse.of(itemId, shares);
     }

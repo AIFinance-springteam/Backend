@@ -3,6 +3,7 @@ package AIFinance.demo.receipt.controller;
 import AIFinance.demo.global.apiPayload.ApiResponse;
 import AIFinance.demo.global.apiPayload.code.GeneralSuccessCode;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
+import AIFinance.demo.receipt.dto.ItemRemainderRequest;
 import AIFinance.demo.receipt.service.ItemSplitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,19 @@ public class ItemSplitController {
             @PathVariable Long itemId
     ) {
         ItemParticipantsResponse response = itemSplitService.splitEqual(itemId);
+
+        return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
+    }
+
+    @PostMapping("/remainder")
+    public ResponseEntity<ApiResponse<ItemParticipantsResponse>> splitRemainder(
+            @PathVariable Long tripId,
+            @PathVariable Long receiptId,
+            @PathVariable Long itemId,
+            @RequestBody ItemRemainderRequest request
+    ) {
+        ItemParticipantsResponse response = itemSplitService.splitRemainder(itemId, request);
 
         return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
                 .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
