@@ -23,7 +23,11 @@ public enum SplitErrorCode implements BaseErrorCode {
 
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND,
             "SPLIT_ITEM_NOT_FOUND",
-            "해당 상품을 찾을 수 없습니다.");
+            "해당 상품을 찾을 수 없습니다."),
+
+    PARTICIPANT_NOT_IN_ITEM(HttpStatus.BAD_REQUEST,
+            "SPLIT_PARTICIPANT_NOT_IN_ITEM",
+            "지정한 회원이 해당 상품의 참여자가 아닙니다.");
 
     private final HttpStatus status;
     private final String code;
