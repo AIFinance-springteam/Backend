@@ -18,4 +18,6 @@ public interface TripMemberRepository extends JpaRepository<TripMember, Long> {
     int countByTrip_IdAndStatus(Long tripId, TripMemberStatus status);
 
     List<TripMember> findAllByUser_IdAndStatus(Long userId, TripMemberStatus status);
+
+    Optional<TripMember> findByIdAndTrip_IdAndStatus(Long tripMemberId, Long tripId, TripMemberStatus status);
 }
