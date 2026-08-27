@@ -78,4 +78,24 @@ public class Receipt extends BaseEntity {
         items.add(item);
         item.assignReceipt(this);
     }
+
+    public void changePayer(TripMember payerMember) {
+        this.payerMember = payerMember;
+    }
+
+    public void updateInfo(String merchantName, LocalDateTime paidAt, Long totalAmount) {
+        if (merchantName != null) {
+            this.merchantName = merchantName;
+        }
+        if (paidAt != null) {
+            this.paidAt = paidAt;
+        }
+        if (totalAmount != null) {
+            this.totalAmount = totalAmount;
+        }
+    }
+
+    public void delete() {
+        this.status = ReceiptStatus.DELETED;
+    }
 }
