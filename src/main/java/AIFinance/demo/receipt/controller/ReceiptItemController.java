@@ -7,6 +7,7 @@ import AIFinance.demo.receipt.exception.code.ReceiptItemSuccessCode;
 import AIFinance.demo.receipt.service.ReceiptItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,43 +20,26 @@ public class ReceiptItemController {
     @PostMapping
     public ApiResponse<ReceiptItemResponse.CreatedAdditionalCost>
     createAdditionalCost(
-            @RequestHeader("X-USER-ID") Long userId,
-            @PathVariable Long tripId,
-            @PathVariable Long receiptId,
-            @Valid @RequestBody
-            ReceiptItemRequest.CreateAdditionalCost request
+            @AuthenticationPrincipal Long userId,
+            @PathVariable Long tripId, @PathVariable 
+            Long receiptId,
+            @Valid @RequestBody ReceiptItemRequest.CreateAdditionalCost request
     ) {
-        ReceiptItemResponse.CreatedAdditionalCost result =
-                receiptItemService.createAdditionalCost(
-                        userId,
-                        tripId,
-                        receiptId,
-                        request
-                );
 
-        return ApiResponse.onSuccess(
-                ReceiptItemSuccessCode.ADDITIONAL_COST_CREATED,
-                result
-        );
+        ReceiptItemResponse.CreatedAdditionalCost result = receiptItemService.createAdditionalCost(userId, tripId, receiptId, request);
+
+        return ApiResponse.onSuccess(ReceiptItemSuccessCode.ADDITIONAL_COST_CREATED, result);
     }
 
     @DeleteMapping("/{itemId}")
     public ApiResponse<Void> deleteAdditionalCost(
-            @RequestHeader("X-USER-ID") Long userId,
+            @AuthenticationPrincipal Long userId,
             @PathVariable Long tripId,
             @PathVariable Long receiptId,
             @PathVariable Long itemId
     ) {
-        receiptItemService.deleteAdditionalCost(
-                userId,
-                tripId,
-                receiptId,
-                itemId
-        );
+        receiptItemService.deleteAdditionalCost(userId, tripId, receiptId, itemId);
 
-        return ApiResponse.onSuccess(
-                ReceiptItemSuccessCode.ADDITIONAL_COST_DELETED,
-                null
-        );
+        return ApiResponse.onSuccess(ReceiptItemSuccessCode.ADDITIONAL_COST_DELETED, null);
     }
 }
