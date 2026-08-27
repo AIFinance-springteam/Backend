@@ -94,4 +94,8 @@ public class ReceiptItem extends BaseEntity {
     public void updateSplitType(SplitType splitType) {
         this.splitType = splitType;
     }
+
+    public void updateRemainderMember(TripMember remainderMember) {
+        this.remainderMember = remainderMember;
+    }
 }
