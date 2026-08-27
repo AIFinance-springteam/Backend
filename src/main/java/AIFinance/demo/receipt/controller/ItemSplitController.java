@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.controller;
 
 import AIFinance.demo.global.apiPayload.ApiResponse;
 import AIFinance.demo.global.apiPayload.code.GeneralSuccessCode;
+import AIFinance.demo.receipt.dto.ItemIndividualRequest;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
 import AIFinance.demo.receipt.dto.ItemRemainderRequest;
 import AIFinance.demo.receipt.service.ItemSplitService;
@@ -36,6 +37,19 @@ public class ItemSplitController {
             @RequestBody ItemRemainderRequest request
     ) {
         ItemParticipantsResponse response = itemSplitService.splitRemainder(itemId, request);
+
+        return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
+    }
+
+    @PostMapping("/individual")
+    public ResponseEntity<ApiResponse<ItemParticipantsResponse>> splitIndividual(
+            @PathVariable Long tripId,
+            @PathVariable Long receiptId,
+            @PathVariable Long itemId,
+            @RequestBody ItemIndividualRequest request
+    ) {
+        ItemParticipantsResponse response = itemSplitService.splitIndividual(tripId, itemId, request);
 
         return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
                 .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
