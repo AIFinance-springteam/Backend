@@ -90,4 +90,8 @@ public class ReceiptItem extends BaseEntity {
     public boolean isAdditionalCost() {
         return ADDITIONAL_COST_CATEGORY.equals(category);
     }
+
+    public void updateSplitType(SplitType splitType) {
+        this.splitType = splitType;
+    }
 }
