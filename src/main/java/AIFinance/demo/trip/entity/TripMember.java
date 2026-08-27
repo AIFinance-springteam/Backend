@@ -56,4 +56,9 @@ public class TripMember {
             joinedAt = LocalDateTime.now();
         }
     }
+
+    public void leave(LocalDateTime leftAt) {
+        this.status = TripMemberStatus.LEFT;
+        this.leftAt = leftAt;
+    }
 }

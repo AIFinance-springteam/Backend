@@ -63,7 +63,7 @@ public class SettlementTransfer extends BaseEntity {
     }
 
     public void confirm() {
-        this.status =  SettlementTransferStatus.COMPLETED;
+        this.status = SettlementTransferStatus.COMPLETED;
         this.confirmedAt = LocalDateTime.now();
     }
 }

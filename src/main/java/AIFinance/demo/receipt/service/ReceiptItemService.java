@@ -7,6 +7,7 @@ import AIFinance.demo.receipt.entity.ReceiptItem;
 import AIFinance.demo.receipt.entity.enums.ReceiptStatus;
 import AIFinance.demo.receipt.exception.ReceiptItemException;
 import AIFinance.demo.receipt.exception.code.ReceiptItemErrorCode;
+import AIFinance.demo.receipt.repository.ItemShareRepository;
 import AIFinance.demo.receipt.repository.ReceiptItemRepository;
 import AIFinance.demo.receipt.repository.ReceiptRepository;
 import AIFinance.demo.trip.entity.Trip;
@@ -27,6 +28,7 @@ public class ReceiptItemService {
     private final TripMemberRepository tripMemberRepository;
     private final ReceiptRepository receiptRepository;
     private final ReceiptItemRepository receiptItemRepository;
+    private final ItemShareRepository itemShareRepository;
 
     @Transactional
     public ReceiptItemResponse.CreatedAdditionalCost createAdditionalCost(Long userId, Long tripId, Long receiptId, ReceiptItemRequest.CreateAdditionalCost request) {
@@ -62,6 +64,7 @@ public class ReceiptItemService {
 
         validateAdditionalCost(receiptItem);
 
+        itemShareRepository.deleteByItem_Id(receiptItem.getId());
         receiptItemRepository.delete(receiptItem);
     }
 
