@@ -2,10 +2,7 @@ package AIFinance.demo.receipt.service;
 
 import AIFinance.demo.global.apiPayload.exception.GeneralException;
 import AIFinance.demo.global.exception.SplitErrorCode;
-import AIFinance.demo.receipt.dto.ItemCustomRequest;
-import AIFinance.demo.receipt.dto.ItemIndividualRequest;
-import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
-import AIFinance.demo.receipt.dto.ItemRemainderRequest;
+import AIFinance.demo.receipt.dto.*;
 import AIFinance.demo.receipt.entity.ItemShare;
 import AIFinance.demo.receipt.entity.ReceiptItem;
 import AIFinance.demo.receipt.entity.enums.SplitType;
@@ -159,4 +156,14 @@ public class ItemSplitService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public UnassignedItemsResponse getUnassignedItems(Long receiptId) {
+        List<ReceiptItem> items = receiptItemRepository.findByReceipt_Id(receiptId);
+
+        List<ReceiptItem> unassignedItems = items.stream()
+                .filter(item -> !itemShareRepository.existsByItem_Id(item.getId()))
+                .toList();
+
+        return UnassignedItemsResponse.of(receiptId, unassignedItems);
+    }
 }
