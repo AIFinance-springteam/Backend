@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.service;
 
 import AIFinance.demo.global.apiPayload.exception.GeneralException;
 import AIFinance.demo.global.exception.SplitErrorCode;
+import AIFinance.demo.receipt.dto.ItemIndividualRequest;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
 import AIFinance.demo.receipt.dto.ItemRemainderRequest;
 import AIFinance.demo.receipt.entity.ItemShare;
@@ -9,6 +10,8 @@ import AIFinance.demo.receipt.entity.ReceiptItem;
 import AIFinance.demo.receipt.entity.enums.SplitType;
 import AIFinance.demo.receipt.repository.ItemShareRepository;
 import AIFinance.demo.receipt.repository.ReceiptItemRepository;
+import AIFinance.demo.trip.entity.TripMember;
+import AIFinance.demo.trip.repository.TripMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,12 @@ public class ItemSplitService {
 
     private final ReceiptItemRepository receiptItemRepository;
     private final ItemShareRepository itemShareRepository;
+    private final TripMemberRepository tripMemberRepository;
+
+    private ReceiptItem getItem(Long itemId) {
+        return receiptItemRepository.findById(itemId)
+                .orElseThrow(() -> new GeneralException(SplitErrorCode.ITEM_NOT_FOUND));
+    }
 
     public ItemParticipantsResponse splitEqual(Long itemId) {
         ReceiptItem item = getItem(itemId);
@@ -78,8 +87,24 @@ public class ItemSplitService {
         return ItemParticipantsResponse.of(itemId, shares);
     }
 
-    private ReceiptItem getItem(Long itemId) {
-        return receiptItemRepository.findById(itemId)
-                .orElseThrow(() -> new GeneralException(SplitErrorCode.ITEM_NOT_FOUND));
+    public ItemParticipantsResponse splitIndividual(Long tripId, Long itemId, ItemIndividualRequest request) {
+        ReceiptItem item = getItem(itemId);
+
+        TripMember member = tripMemberRepository.findById(request.getTripMemberId())
+                .orElseThrow(() -> new GeneralException(SplitErrorCode.MEMBER_NOT_IN_TRIP));
+
+        if (!member.getTrip().getId().equals(tripId)) {
+            throw new GeneralException(SplitErrorCode.MEMBER_NOT_IN_TRIP);
+        }
+
+        itemShareRepository.deleteByItem_Id(itemId);
+
+        ItemShare share = ItemShare.of(item, member, item.getOriginalAmount());
+        itemShareRepository.save(share);
+
+        item.updateSplitType(SplitType.INDIVIDUAL);
+        item.updateRemainderMember(null);
+
+        return ItemParticipantsResponse.of(itemId, List.of(share));
     }
 }
