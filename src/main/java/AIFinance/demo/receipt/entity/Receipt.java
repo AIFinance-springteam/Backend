@@ -102,4 +102,19 @@ public class Receipt extends BaseEntity {
     public void delete() {
         this.status = ReceiptStatus.DELETED;
     }
+
+    public void startAnalysis() {
+        this.analysisStatus = ReceiptAnalysisStatus.PROCESSING;
+    }
+
+    public void completeAnalysis(String merchantName, LocalDateTime paidAt, Long totalAmount) {
+        this.merchantName = merchantName;
+        this.paidAt = paidAt;
+        this.totalAmount = totalAmount;
+        this.analysisStatus = ReceiptAnalysisStatus.SUCCESS;
+    }
+
+    public void failAnalysis() {
+        this.analysisStatus = ReceiptAnalysisStatus.FAILED;
+    }
 }
