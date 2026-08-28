@@ -12,4 +12,6 @@ public interface ItemShareRepository extends JpaRepository<ItemShare, Long> {
     void deleteByItem_Id(Long itemId);
 
     boolean existsByItem_Id(Long itemId);
+
+    List<ItemShare> findByItem_IdInAndTripMember_Id(List<Long> itemIds, Long tripMemberId);
 }
