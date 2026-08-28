@@ -54,4 +54,17 @@ public class ItemSplitController {
         return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
                 .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
     }
+
+    @PutMapping("/custom")
+    public ResponseEntity<ApiResponse<ItemParticipantsResponse>> splitCustom(
+            @PathVariable Long tripId,
+            @PathVariable Long receiptId,
+            @PathVariable Long itemId,
+            @RequestBody ItemCustomRequest request
+    ) {
+        ItemParticipantsResponse response = itemSplitService.splitCustom(tripId, itemId, request);
+
+        return ResponseEntity.status(GeneralSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
+    }
 }

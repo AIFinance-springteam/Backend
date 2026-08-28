@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.service;
 
 import AIFinance.demo.global.apiPayload.exception.GeneralException;
 import AIFinance.demo.global.exception.SplitErrorCode;
+import AIFinance.demo.receipt.dto.ItemCustomRequest;
 import AIFinance.demo.receipt.dto.ItemIndividualRequest;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
 import AIFinance.demo.receipt.dto.ItemRemainderRequest;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -107,4 +110,53 @@ public class ItemSplitService {
 
         return ItemParticipantsResponse.of(itemId, List.of(share));
     }
+
+    public ItemParticipantsResponse splitCustom(Long tripId, Long itemId, ItemCustomRequest request) {
+        List<ItemCustomRequest.CustomShare> customShares = request.getShares();
+        if (customShares == null || customShares.isEmpty()) {
+            throw new GeneralException(SplitErrorCode.NO_PARTICIPANT_SELECTED);
+        }
+
+        ReceiptItem item = getItem(itemId);
+
+        long total = customShares.stream()
+                .mapToLong(ItemCustomRequest.CustomShare::getAmount)
+                .sum();
+        if (total != item.getOriginalAmount()) {
+            throw new GeneralException(SplitErrorCode.AMOUNT_MISMATCH);
+        }
+
+        List<Long> tripMemberIds = customShares.stream()
+                .map(ItemCustomRequest.CustomShare::getTripMemberId)
+                .toList();
+        List<TripMember> members = tripMemberRepository.findAllById(tripMemberIds);
+        validateMembersBelongToTrip(members, tripMemberIds, tripId);
+
+        itemShareRepository.deleteByItem_Id(itemId);
+
+        Map<Long, TripMember> memberById = members.stream()
+                .collect(Collectors.toMap(TripMember::getId, member -> member));
+
+        List<ItemShare> shares = customShares.stream()
+                .map(cs -> ItemShare.of(item, memberById.get(cs.getTripMemberId()), cs.getAmount()))
+                .toList();
+        itemShareRepository.saveAll(shares);
+
+        item.updateSplitType(SplitType.CUSTOM);
+        item.updateRemainderMember(null);
+
+        return ItemParticipantsResponse.of(itemId, shares);
+    }
+
+    private void validateMembersBelongToTrip(List<TripMember> members, List<Long> requestedIds, Long tripId) {
+        if (members.size() != requestedIds.size()) {
+            throw new GeneralException(SplitErrorCode.MEMBER_NOT_IN_TRIP);
+        }
+        boolean allBelong = members.stream()
+                .allMatch(member -> member.getTrip().getId().equals(tripId));
+        if (!allBelong) {
+            throw new GeneralException(SplitErrorCode.MEMBER_NOT_IN_TRIP);
+        }
+    }
+
 }
