@@ -11,7 +11,7 @@ public enum SettlementErrorCode implements BaseErrorCode {
 
     TRIP_NOT_FOUND(HttpStatus.NOT_FOUND, "TRIP_NOT_FOUND", "여행방을 찾을 수 없습니다."),
 
-    INVALID_TRIP_STATUS(HttpStatus.CONFLICT, "INVALID_TRIP_STATUS", "정산 진행 중인 여행방에서만 처리할 수 있습니다."),
+    INVALID_TRIP_STATUS(HttpStatus.CONFLICT, "INVALID_TRIP_STATUS", "현재 여행 상태에서는 요청을 처리할 수 없습니다."),
 
     TRANSFER_NOT_FOUND(HttpStatus.NOT_FOUND, "TRANSFER_NOT_FOUND", "해당 여행방에서 송금 건을 찾을 수 없습니다."),
 
@@ -27,7 +27,7 @@ public enum SettlementErrorCode implements BaseErrorCode {
 
     SETTLEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "SETTLEMENT_NOT_FOUND", "확정된 정산을 찾을 수 없습니다."),
 
-    TRIP_OWNER_REQUIRED(HttpStatus.FORBIDDEN, "TRIP_OWNER_REQUIRED", "여행방의 방장만 정산을 종료할 수 있습니다."),
+    TRIP_OWNER_REQUIRED(HttpStatus.FORBIDDEN, "TRIP_OWNER_REQUIRED", "여행방의 방장만 요청할 수 있습니다."),
 
     SETTLEMENT_ALREADY_COMPLETED(HttpStatus.CONFLICT, "SETTLEMENT_ALREADY_COMPLETED", "이미 종료된 정산입니다."),
 

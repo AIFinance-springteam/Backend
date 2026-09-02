@@ -6,6 +6,7 @@ import AIFinance.demo.receipt.dto.ItemIndividualRequest;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
 import AIFinance.demo.receipt.dto.ItemRemainderRequest;
 import AIFinance.demo.receipt.service.ItemSplitService;
+import AIFinance.demo.receipt.dto.ItemCustomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
