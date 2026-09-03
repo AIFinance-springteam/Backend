@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: aifinance-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aifinance
+      MYSQL_USER: aifinance
+      MYSQL_PASSWORD: aifinance
+    ports:
+      - "3307:3306"
+    volumes:
+      - aifinance-mysql-data:/var/lib/mysql
+
+volumes:
+  aifinance-mysql-data:
