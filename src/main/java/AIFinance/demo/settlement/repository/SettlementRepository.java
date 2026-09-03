@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface SettlementRepository extends JpaRepository<Settlement, Long> {
     Optional<Settlement> findByTrip_Id(Long tripId);
+    boolean existsByTrip_Id(Long tripId);
 }

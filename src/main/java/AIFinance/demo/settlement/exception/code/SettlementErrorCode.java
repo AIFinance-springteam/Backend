@@ -31,7 +31,11 @@ public enum SettlementErrorCode implements BaseErrorCode {
 
     SETTLEMENT_ALREADY_COMPLETED(HttpStatus.CONFLICT, "SETTLEMENT_ALREADY_COMPLETED", "이미 종료된 정산입니다."),
 
-    INCOMPLETE_TRANSFERS(HttpStatus.CONFLICT, "INCOMPLETE_TRANSFERS", "완료되지 않은 송금 건이 남아 있습니다.");
+    INCOMPLETE_TRANSFERS(HttpStatus.CONFLICT, "INCOMPLETE_TRANSFERS", "완료되지 않은 송금 건이 남아 있습니다."),
+
+    SETTLEMENT_NOT_READY(HttpStatus.CONFLICT, "SETTLEMENT_NOT_READY", "미완료 항목이 남아 있어 정산을 확정할 수 없습니다."),
+
+    SETTLEMENT_ALREADY_CONFIRMED(HttpStatus.CONFLICT, "SETTLEMENT_ALREADY_CONFIRMED", "이미 확정된 정산입니다.");
 
     private final HttpStatus status;
     private final String code;
