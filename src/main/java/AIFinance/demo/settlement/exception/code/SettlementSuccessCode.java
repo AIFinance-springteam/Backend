@@ -15,7 +15,9 @@ public enum SettlementSuccessCode implements BaseSuccessCode {
 
     TRANSFER_CONFIRMED(HttpStatus.OK, "TRANSFER_CONFIRMED", "입금이 확인되었습니다."),
 
-    SETTLEMENT_COMPLETED(HttpStatus.OK, "SETTLEMENT_COMPLETED", "정산이 종료되었습니다.");
+    SETTLEMENT_COMPLETED(HttpStatus.OK, "SETTLEMENT_COMPLETED", "정산이 종료되었습니다."),
+
+    SETTLEMENT_CONFIRMED(HttpStatus.OK, "SETTLEMENT_CONFIRMED", "정산이 확정되었습니다.");
 
     private final HttpStatus status;
     private final String code;

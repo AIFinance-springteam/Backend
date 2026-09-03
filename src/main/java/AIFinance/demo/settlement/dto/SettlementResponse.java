@@ -11,6 +11,19 @@ public class SettlementResponse {
 
     private SettlementResponse() {}
 
+    public record SettlementConfirmed(Long settlementId, Long tripId, SettlementStatus status, Long totalAmount, int transferCount, LocalDateTime confirmedAt) {
+        public static SettlementConfirmed from(Settlement settlement, int transferCount) {
+            return new SettlementConfirmed(
+                    settlement.getId(),
+                    settlement.getTrip().getId(),
+                    settlement.getStatus(),
+                    settlement.getTotalAmount(),
+                    transferCount,
+                    settlement.getConfirmedAt()
+            );
+        }
+    }
+
     public record TransferSent(Long transferId, Long settlementId, SettlementTransferStatus status, LocalDateTime sentAt) {
         public static TransferSent from(SettlementTransfer transfer){
             return new TransferSent(

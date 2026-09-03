@@ -95,6 +95,10 @@ public class Receipt extends BaseEntity {
         }
     }
 
+    public void confirm() {
+        this.status = ReceiptStatus.CONFIRMED;
+    }
+
     public void delete() {
         this.status = ReceiptStatus.DELETED;
     }

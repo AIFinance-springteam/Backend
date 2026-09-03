@@ -5,6 +5,7 @@ import AIFinance.demo.settlement.dto.SettlementCheckResponse;
 import AIFinance.demo.settlement.dto.SettlementResponse;
 import AIFinance.demo.settlement.exception.code.SettlementSuccessCode;
 import AIFinance.demo.settlement.service.SettlementCheckService;
+import AIFinance.demo.settlement.service.SettlementConfirmService;
 import AIFinance.demo.settlement.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,12 +18,20 @@ public class SettlementController {
 
     private final SettlementService settlementService;
     private final SettlementCheckService settlementCheckService;
+    private final SettlementConfirmService settlementConfirmService;
 
     @GetMapping("/check")
     public ApiResponse<SettlementCheckResponse.Result> checkSettlement(@AuthenticationPrincipal Long userId, @PathVariable Long tripId) {
         SettlementCheckResponse.Result response = settlementCheckService.checkSettlement(userId, tripId);
 
         return ApiResponse.onSuccess(SettlementSuccessCode.SETTLEMENT_CHECKED, response);
+    }
+
+    @PutMapping
+    public ApiResponse<SettlementResponse.SettlementConfirmed> confirmSettlement(@AuthenticationPrincipal Long userId, @PathVariable Long tripId) {
+        SettlementResponse.SettlementConfirmed response = settlementConfirmService.confirmSettlement(userId, tripId);
+
+        return ApiResponse.onSuccess(SettlementSuccessCode.SETTLEMENT_CONFIRMED, response);
     }
 
     @PatchMapping("/complete")
