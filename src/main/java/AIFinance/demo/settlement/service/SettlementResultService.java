@@ -69,10 +69,7 @@ public class SettlementResultService {
                 );
 
         List<TripMember> members =
-                tripMemberRepository.findAllByTrip_IdAndStatus(
-                                tripId,
-                                TripMemberStatus.ACTIVE
-                        )
+                tripMemberRepository.findAllByTrip_Id(tripId)
                         .stream()
                         .sorted(Comparator.comparing(TripMember::getId))
                         .toList();

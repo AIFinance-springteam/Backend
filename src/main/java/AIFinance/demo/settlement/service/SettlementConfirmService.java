@@ -18,7 +18,6 @@ import AIFinance.demo.settlement.repository.SettlementRepository;
 import AIFinance.demo.settlement.repository.SettlementTransferRepository;
 import AIFinance.demo.trip.entity.Trip;
 import AIFinance.demo.trip.entity.TripMember;
-import AIFinance.demo.trip.entity.enums.TripMemberStatus;
 import AIFinance.demo.trip.entity.enums.TripStatus;
 import AIFinance.demo.trip.repository.TripMemberRepository;
 import AIFinance.demo.trip.repository.TripRepository;
@@ -60,7 +59,7 @@ public class SettlementConfirmService {
         List<Receipt> receipts = getSettlementReceipts(tripId);
         List<ReceiptItem> items = getReceiptItems(receipts);
         List<ItemShare> shares = getItemShares(items);
-        List<TripMember> members = tripMemberRepository.findAllByTrip_IdAndStatus(tripId, TripMemberStatus.ACTIVE);
+        List<TripMember> members = tripMemberRepository.findAllByTrip_Id(tripId);
 
         TripMember confirmer = findConfirmer(members, userId);
 
