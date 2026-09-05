@@ -97,6 +97,7 @@ public class ReceiptResponse {
 
     public record Detail(
             Long receiptId,
+            String imageUrl,
             String merchantName,
             LocalDateTime paidAt,
             Long totalAmount,
@@ -104,6 +105,7 @@ public class ReceiptResponse {
             String payerMemberName,
             String status,
             String analysisStatus,
+            String duplicateStatus,
             List<ItemSummary> items
     ) {
 
@@ -115,6 +117,7 @@ public class ReceiptResponse {
 
             return new Detail(
                     receipt.getId(),
+                    receipt.getImageUrl(),
                     receipt.getMerchantName(),
                     receipt.getPaidAt(),
                     receipt.getTotalAmount(),
@@ -122,6 +125,7 @@ public class ReceiptResponse {
                     payer != null ? payer.getUser().getNickname() : null,
                     receipt.getStatus().name(),
                     receipt.getAnalysisStatus().name(),
+                    receipt.getDuplicateStatus().name(),
                     items
             );
         }

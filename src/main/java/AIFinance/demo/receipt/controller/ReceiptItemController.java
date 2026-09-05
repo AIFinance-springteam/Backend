@@ -21,14 +21,22 @@ public class ReceiptItemController {
     public ApiResponse<ReceiptItemResponse.CreatedAdditionalCost>
     createAdditionalCost(
             @AuthenticationPrincipal Long userId,
-            @PathVariable Long tripId, @PathVariable 
-            Long receiptId,
+            @PathVariable Long tripId,
+            @PathVariable Long receiptId,
             @Valid @RequestBody ReceiptItemRequest.CreateAdditionalCost request
     ) {
+        ReceiptItemResponse.CreatedAdditionalCost result =
+                receiptItemService.createAdditionalCost(
+                        userId,
+                        tripId,
+                        receiptId,
+                        request
+                );
 
-        ReceiptItemResponse.CreatedAdditionalCost result = receiptItemService.createAdditionalCost(userId, tripId, receiptId, request);
-
-        return ApiResponse.onSuccess(ReceiptItemSuccessCode.ADDITIONAL_COST_CREATED, result);
+        return ApiResponse.onSuccess(
+                ReceiptItemSuccessCode.ADDITIONAL_COST_CREATED,
+                result
+        );
     }
 
     @DeleteMapping("/{itemId}")
@@ -38,8 +46,16 @@ public class ReceiptItemController {
             @PathVariable Long receiptId,
             @PathVariable Long itemId
     ) {
-        receiptItemService.deleteAdditionalCost(userId, tripId, receiptId, itemId);
+        receiptItemService.deleteAdditionalCost(
+                userId,
+                tripId,
+                receiptId,
+                itemId
+        );
 
-        return ApiResponse.onSuccess(ReceiptItemSuccessCode.ADDITIONAL_COST_DELETED, null);
+        return ApiResponse.onSuccess(
+                ReceiptItemSuccessCode.ADDITIONAL_COST_DELETED,
+                null
+        );
     }
 }
