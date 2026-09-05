@@ -15,7 +15,6 @@ import AIFinance.demo.settlement.repository.SettlementRepository;
 import AIFinance.demo.settlement.repository.SettlementTransferRepository;
 import AIFinance.demo.trip.entity.Trip;
 import AIFinance.demo.trip.entity.TripMember;
-import AIFinance.demo.trip.entity.enums.TripMemberStatus;
 import AIFinance.demo.trip.entity.enums.TripStatus;
 import AIFinance.demo.trip.repository.TripMemberRepository;
 import AIFinance.demo.trip.repository.TripRepository;
@@ -47,15 +46,16 @@ public class SettlementResultService {
                         new SettlementException(SettlementErrorCode.TRIP_NOT_FOUND)
                 );
 
-        boolean isActiveMember =
-                tripMemberRepository.existsByTrip_IdAndUser_IdAndStatus(
+        boolean isTripMember =
+                tripMemberRepository.findByTrip_IdAndUser_Id(
                         tripId,
-                        userId,
-                        TripMemberStatus.ACTIVE
-                );
+                        userId
+                ).isPresent();
 
-        if (!isActiveMember) {
-            throw new SettlementException(SettlementErrorCode.TRIP_MEMBER_REQUIRED);
+        if (!isTripMember) {
+            throw new SettlementException(
+                    SettlementErrorCode.TRIP_MEMBER_REQUIRED
+            );
         }
 
         if (trip.getStatus() != TripStatus.SETTLING
