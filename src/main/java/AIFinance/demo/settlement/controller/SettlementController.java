@@ -3,9 +3,11 @@ package AIFinance.demo.settlement.controller;
 import AIFinance.demo.global.apiPayload.ApiResponse;
 import AIFinance.demo.settlement.dto.SettlementCheckResponse;
 import AIFinance.demo.settlement.dto.SettlementResponse;
+import AIFinance.demo.settlement.dto.SettlementResultResponse;
 import AIFinance.demo.settlement.exception.code.SettlementSuccessCode;
 import AIFinance.demo.settlement.service.SettlementCheckService;
 import AIFinance.demo.settlement.service.SettlementConfirmService;
+import AIFinance.demo.settlement.service.SettlementResultService;
 import AIFinance.demo.settlement.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,12 +21,21 @@ public class SettlementController {
     private final SettlementService settlementService;
     private final SettlementCheckService settlementCheckService;
     private final SettlementConfirmService settlementConfirmService;
+    private final SettlementResultService settlementResultService;
 
     @GetMapping("/check")
     public ApiResponse<SettlementCheckResponse.Result> checkSettlement(@AuthenticationPrincipal Long userId, @PathVariable Long tripId) {
         SettlementCheckResponse.Result response = settlementCheckService.checkSettlement(userId, tripId);
 
         return ApiResponse.onSuccess(SettlementSuccessCode.SETTLEMENT_CHECKED, response);
+    }
+
+    @GetMapping
+    public ApiResponse<SettlementResultResponse.Result> getSettlementResult(@AuthenticationPrincipal Long userId, @PathVariable Long tripId
+    ) {
+        SettlementResultResponse.Result response = settlementResultService.getSettlementResult(userId, tripId);
+
+        return ApiResponse.onSuccess(SettlementSuccessCode.SETTLEMENT_RESULT_RETRIEVED, response);
     }
 
     @PutMapping

@@ -29,6 +29,8 @@ public enum SettlementErrorCode implements BaseErrorCode {
 
     TRIP_OWNER_REQUIRED(HttpStatus.FORBIDDEN, "TRIP_OWNER_REQUIRED", "여행방의 방장만 요청할 수 있습니다."),
 
+    TRIP_MEMBER_REQUIRED(HttpStatus.FORBIDDEN, "TRIP_MEMBER_REQUIRED", "해당 여행방의 참여자만 요청할 수 있습니다."),
+
     SETTLEMENT_ALREADY_COMPLETED(HttpStatus.CONFLICT, "SETTLEMENT_ALREADY_COMPLETED", "이미 종료된 정산입니다."),
 
     INCOMPLETE_TRANSFERS(HttpStatus.CONFLICT, "INCOMPLETE_TRANSFERS", "완료되지 않은 송금 건이 남아 있습니다."),

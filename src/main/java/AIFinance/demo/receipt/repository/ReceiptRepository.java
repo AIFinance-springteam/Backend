@@ -12,5 +12,8 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     Optional<Receipt> findByIdAndTrip_Id(Long receiptId, Long tripId);
 
     List<Receipt> findAllByTrip_IdAndStatusNot(Long tripId, ReceiptStatus status);
+
     List<Receipt> findByTrip_Id(Long tripId);
+
+    List<Receipt> findAllByTrip_IdAndStatus(Long tripId, ReceiptStatus status);
 }
