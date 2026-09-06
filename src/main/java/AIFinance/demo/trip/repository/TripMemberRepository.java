@@ -2,6 +2,7 @@ package AIFinance.demo.trip.repository;
 
 import AIFinance.demo.trip.entity.TripMember;
 import AIFinance.demo.trip.entity.enums.TripMemberStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface TripMemberRepository extends JpaRepository<TripMember, Long> {
 
     List<TripMember> findAllByTrip_IdAndStatus(Long tripId, TripMemberStatus status);
 
+    @EntityGraph(attributePaths = "user")
     List<TripMember> findAllByTrip_Id(Long tripId);
 
     int countByTrip_IdAndStatus(Long tripId, TripMemberStatus status);
