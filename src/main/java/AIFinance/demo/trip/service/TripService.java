@@ -190,6 +190,7 @@ public class TripService {
 
     private MemberResponse toMemberResponse(TripMember member) {
         return new MemberResponse(
+                member.getId(),
                 member.getUser().getId(),
                 member.getUser().getNickname(),
                 member.getRole().name(),

@@ -81,7 +81,8 @@ public class ReceiptResponse {
             String itemName,
             Integer quantity,
             Long originalAmount,
-            Long settlementAmount
+            Long settlementAmount,
+            boolean additionalCost
     ) {
 
         public static ItemSummary from(ReceiptItem item) {
@@ -90,7 +91,8 @@ public class ReceiptResponse {
                     item.getItemName(),
                     item.getQuantity(),
                     item.getOriginalAmount(),
-                    item.getSettlementAmount()
+                    item.getSettlementAmount(),
+                    item.isAdditionalCost()
             );
         }
     }
