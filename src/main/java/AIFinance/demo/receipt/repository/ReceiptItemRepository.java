@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface ReceiptItemRepository extends JpaRepository<ReceiptItem, Long> {
 
     Optional<ReceiptItem> findByIdAndReceipt_Id(Long itemId, Long receiptId);
+
     List<ReceiptItem> findByReceipt_Id(Long receiptId);
+
     List<ReceiptItem> findByReceipt_IdIn(List<Long> receiptIds);
 }

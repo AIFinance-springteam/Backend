@@ -81,7 +81,7 @@ public class ReceiptItem extends BaseEntity {
         item.originalAmount = amount;
         item.settlementAmount = amount;
         item.category = ADDITIONAL_COST_CATEGORY;
-        
+
         receipt.addItem(item);
 
         return item;
