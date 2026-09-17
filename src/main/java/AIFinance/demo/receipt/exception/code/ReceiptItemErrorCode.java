@@ -48,6 +48,18 @@ public enum ReceiptItemErrorCode implements BaseErrorCode {
             HttpStatus.BAD_REQUEST,
             "NOT_ADDITIONAL_COST",
             "추가 비용 항목만 삭제할 수 있습니다."
+    ),
+
+    OCR_FAILED(
+            HttpStatus.BAD_GATEWAY,
+            "RECEIPT_OCR_FAILED",
+            "영수증 OCR 분석에 실패했습니다."
+    ),
+
+    INVALID_IMAGE(
+            HttpStatus.BAD_REQUEST,
+            "INVALID_RECEIPT_IMAGE",
+            "영수증 이미지가 올바르지 않습니다."
     );
 
     private final HttpStatus status;

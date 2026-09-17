@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.controller;
 
 import AIFinance.demo.global.apiPayload.ApiResponse;
 import AIFinance.demo.global.apiPayload.code.GeneralSuccessCode;
+import AIFinance.demo.receipt.dto.ItemCustomRequest;
 import AIFinance.demo.receipt.dto.ItemIndividualRequest;
 import AIFinance.demo.receipt.dto.ItemParticipantsResponse;
 import AIFinance.demo.receipt.dto.ItemRemainderRequest;

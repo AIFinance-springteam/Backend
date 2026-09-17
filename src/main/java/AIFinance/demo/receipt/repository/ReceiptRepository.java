@@ -2,6 +2,7 @@ package AIFinance.demo.receipt.repository;
 
 import AIFinance.demo.receipt.entity.Receipt;
 import AIFinance.demo.receipt.entity.enums.ReceiptStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
     List<Receipt> findByTrip_Id(Long tripId);
 
+    @EntityGraph(attributePaths = "payerMember")
     List<Receipt> findAllByTrip_IdAndStatus(Long tripId, ReceiptStatus status);
 }
